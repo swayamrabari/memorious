@@ -83,7 +83,19 @@ const Tiptap = ({ content, editable, onContentChange }: TiptapProps) => {
       id: 'generate',
     });
 
-    let finalPrompt = `Create a note on "${prompt}" with a ${structure} structure, ${lengthLabel} in length and a ${tone} tone. Do not include main heading at top! Make sure that notes is structured and detailed.`;
+    // Improved prompt engineering: Provide clear guidelines for note-taking,
+    const finalPrompt = `
+    User request: "${prompt}"
+
+    Instructions:
+      - Write a ${lengthLabel.toLowerCase()} and ${tone.toLowerCase()} note.
+      - Structure: ${structure.toLowerCase()}.
+      - Adapt detail level to the prompt.
+      - Use paragraphs and bullet points as needed.
+      - Use headings (h1, h2, h3) only if necessary.
+      - Never start with a main heading because there's already a title above the document, so start directly with the content.
+      - Provide examples only if essential for clarity.
+    `;
 
     console.log(finalPrompt);
     try {
