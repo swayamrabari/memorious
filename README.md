@@ -24,7 +24,8 @@ Memorious is a digital notebook built on Next.js. It provides a clean space to c
 ## Tech Stack
 
 - **Framework**: Next.js 14 with TypeScript
-- **Database**: Prisma ORM
+- **Database**: MongoDB
+- **ORM**: Prisma
 - **UI Components**:
   - Shadcn UI, Radix UI primitives
   - TailwindCSS for styling
