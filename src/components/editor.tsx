@@ -83,8 +83,31 @@ const Tiptap = ({ content, editable, onContentChange }: TiptapProps) => {
       id: 'generate',
     });
 
-    // Improved prompt engineering: Provide clear guidelines for note-taking,
-    const finalPrompt = `
+    // Check for direct definition/summary requests
+    const directKeywords = [
+      'definition',
+      'define',
+      'summary',
+      'summarize',
+      'explain briefly',
+      'short explanation',
+      'short definition',
+    ];
+    const lowerPrompt = prompt.toLowerCase();
+    const isDirectRequest = directKeywords.some((kw) =>
+      lowerPrompt.includes(kw),
+    );
+
+    const finalPrompt = isDirectRequest
+      ? `
+    User request: "${prompt}"
+
+    Instructions:
+      - Provide a concise and direct answer.
+      - Ignore any length, tone, or structure preferences.
+      - Do not add extra formatting or headings.
+    `
+      : `
     User request: "${prompt}"
 
     Instructions:
@@ -97,7 +120,6 @@ const Tiptap = ({ content, editable, onContentChange }: TiptapProps) => {
       - Provide examples only if essential for clarity.
     `;
 
-    console.log(finalPrompt);
     try {
       const response = await fetch('/api/gemini', {
         method: 'POST',
